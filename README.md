@@ -1,5 +1,7 @@
 # crc-immune-hubs
-Principal analysis code used in for analysis of single cell RNAseq of primary untreated colon cancer. As described in: "Multicellular immune hubs and their organization in MMRd and MMRp colorectal cancer"
+Principal analysis code used in "Spatially organized multicellular immune hubs in human colorectal cancer"
 
-![Under construction](https://commons.wikimedia.org/wiki/File:C%C3%B4ne_orange_-_under_construction.png)
+<img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/C%C3%B4ne_orange_-_under_construction.png" width="500" >
+
+
 Please check back again soon!
