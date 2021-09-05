@@ -1,0 +1,101 @@
+%% Make for fastTable Read function 
+if ismac()
+
+    mex -v fastTableReadV2.cpp -largeArrayDims -I/usr/local/include/ -lboost_iostreams
+elseif isunix()
+
+    mex -v -lz -largeArrayDims -I/ahg/regevdata/projects/sawyersProstateSC/extra/library/boost_1_76_0 /ahg/regevdata/projects/sawyersProstateSC/extra/library/boost_1_76_0/stage/lib/libboost_iostreams.a fastTableReadV3.cpp
+end
+
+
+
+
+%%
+
+fname = '/ahg/regevdata/users/mhofree/local/toolbox-matlab/fastTableRead/test_data.small.txt';
+[zdata,zerr] = fastTableReadV2(2,fname,[],char(9));
+%%
+
+fname = '/ahg/regevdata/users/mhofree/local/toolbox-matlab/fastTableRead/test_data.small.txt';
+[zdata,zerr,zRowH,zColH] = fastTableReadV2(2,fname,[],char(9),0,1,1);
+
+%%
+
+fname = '/ahg/regevdata/users/mhofree/local/toolbox-matlab/fastTableRead/test_data.150by100.txt';
+[zdata,zerr,zRowH,zColH] = fastTableReadV2(2,fname,[],char(9),0,1,1);
+
+%%
+
+fname = '/broad/hptmp/mhofree/active/kras_tumor_redo/analysis_b1to6_deNovo/summary/T1.mouse2.kallisto.genes.TPM.matrix';
+[zdata,zerr,zRowH,zColH] = fastTableReadV2(2,fname,[],char(9),0,1,1);
+
+
+%%
+fname = '/ahg/regevdata/users/mhofree/local/toolbox-matlab/fastTableRead/test_data.small.txt';
+[zz,zerr] = fastTxtRead(fname,'\t');
+
+%% In linux UGER - build thus 
+% The crux is to tstatically link libstdc++
+
+%! /broad/software/free/Linux/redhat_6_x86_64/pkgs/gcc_5.2.0/bin/g++ -c -D_GNU_SOURCE -DMATLAB_MEX_FILE  -I/usr/local/include/ -I/ahg/regevdata/users/mhofree/local_unix/boost_1_59/include  -I"/broad/software/nonfree/Linux/redhat_6_x86_64/pkgs/matlab_2016a/extern/include" -I"/broad/software/nonfree/Linux/redhat_6_x86_64/pkgs/matlab_2016a/simulink/include" -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -std=c++11 -O3 -DNDEBUG /ahg/regevdata/users/mhofree/local/toolbox-matlab/fastTableRead/fastTableReadV2.cpp -o fastTableReadV2.o
+%! /broad/software/free/Linux/redhat_6_x86_64/pkgs/gcc_5.2.0/bin/g++ -pthread -Wl,--no-undefined  -shared -O3 -Wl,--version-script,"/broad/software/nonfree/Linux/redhat_6_x86_64/pkgs/matlab_2016a/extern/lib/glnxa64/mexFunction.map" -L/ahg/regevdata/users/mhofree/local_unix/boost_1_59/lib   -Wl,-rpath-link,/broad/software/nonfree/Linux/redhat_6_x86_64/pkgs/matlab_2016a/bin/glnxa64 -L"/broad/software/nonfree/Linux/redhat_6_x86_64/pkgs/matlab_2016a/bin/glnxa64" -lmx -lmex -lmat -lm fastTableReadV2.o /broad/software/free/Linux/redhat_6_x86_64/pkgs/gcc_5.2.0/lib64/libstdc++.a -o /ahg/regevdata/users/mhofree/local/toolbox-matlab/fastTableRead/fastTableReadV2.mexa64
+
+%% 
+
+mex -v fastTableReadV3.cpp -largeArrayDims -I/usr/local/include/ -lboost_iostreams 
+%%
+
+mex -v fastTableReadV3.cpp -largeArrayDims -I/ahg/regevdata/users/mhofree/local_unix/boost_1_59/include
+
+%%
+
+mex -v -largeArrayDims -I/broad/software/free/Linux/redhat_7_x86_64/pkgs/boost_1.76.0/include /broad/software/free/Linux/redhat_7_x86_64/pkgs/boost_1.76.0/lib/libboost_iostreams.a fastTableReadV3.cpp
+
+%%
+
+
+mex -v -lz -largeArrayDims -I/ahg/regevdata/projects/sawyersProstateSC/extra/library/boost_1_76_0 /ahg/regevdata/projects/sawyersProstateSC/extra/library/boost_1_76_0/stage/lib/libboost_iostreams.a fastTableReadV3.cpp
+
+
+
+
+
+%% 
+
+fname = './test/test_data.small.txt';
+[zdata,zerr] = fastTableReadV3(2,fname,[],char(9));
+
+%%
+
+fname = './test/test_data.small.txt';
+[zdata,zerr,zRowH,zColH] = fastTableReadV3(2,fname,[],char(9),0,1,1)
+
+%%
+
+fname = './test/test_data_sm.txt.gz';
+[zOutD.zdata,zerr,zOutD.zRowH,zOutD.ColH] = fastTableReadV3(2,fname,[],char(9),0,1,1)
+
+%%
+
+fname = './test/test_data_sm.txt.gz';
+[zOutSp.zdata,zerr,zOutSp.zRowH,zOutSp.zColH] = fastTableReadV3(3,fname,[],char(9),0,1,1);
+zOutSp.zdata = zOutSp.zdata'
+
+%% 
+
+[zi,zj,zv] = find(zOutSp.zdata)
+
+%%
+
+[zx.zi,zx.zj,zx.zv] = find(zOutD.zdata');
+%
+struct2table(zx)
+
+%% 
+
+isequal(zOutD.zdata,full(zOutSp.zdata))
+isequal(zOutD.zRowH,full(zOutSp.zRowH))
+isequal(zOutD.ColH,full(zOutSp.zColH))
+
+%%
+

@@ -1,0 +1,6 @@
+*.o
+*.obj
+*~
+*.mex*
+.DS_Store
+mexopts.sh
